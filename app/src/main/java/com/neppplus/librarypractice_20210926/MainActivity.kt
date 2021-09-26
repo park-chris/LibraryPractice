@@ -1,11 +1,13 @@
 package com.neppplus.librarypractice_20210926
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,23 +24,28 @@ class MainActivity : AppCompatActivity() {
 //                    권한이 OK 되었을때 할 일
 //                    실제로 전화를 걸자.
                     val myUri = Uri.parse("tel:010-7335-4342")
-                    val myIntent = Intent( Intent.ACTION_CALL, myUri )
+                    val myIntent = Intent(Intent.ACTION_CALL, myUri)
                     startActivity(myIntent)
-                }
                 }
 
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
 //                권한이 거절되었을때. => 보통 토스트
-                    Toast.makeText(this@MainActivity, "권한이 거절되어 전화 연결이 불가하니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "권한이 거절되어 전화 연결이 불가하니다.", Toast.LENGTH_SHORT)
+                        .show()
 
                 }
-
             }
+
+//            pl에 적혀있는 가이드를 들고 -> 실제 권한 확인
+            TedPermission.create()
+                .setPermissionListener(pl)
+                .setPermissions(Manifest.permission.CALL_PHONE)
+                .check()
+
+        }
 
 
 //            Intent(4) 바로 전화 연결 -> CALL 액션
-
-
 
 
         profileImg.setOnClickListener {
